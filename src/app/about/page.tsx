@@ -153,8 +153,8 @@ export default function AboutPage() {
               </div>
             </div>
 
-            {/* Passion Projects */}
-            <div className="flex flex-col gap-4">
+            {/* Passion Projects — hidden until projects are ready */}
+            <div className="hidden flex flex-col gap-4">
               <h2 className="font-sans font-medium text-[11px] uppercase tracking-[0.1em] text-body">
                 Passion Projects
               </h2>
