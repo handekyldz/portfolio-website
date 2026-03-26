@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+/*
+ * FONT NOTE: Tiempos Text is a licensed typeface by Klim Type Foundry.
+ * The @font-face declarations below point to /fonts/TiemposText-Regular.woff2.
+ * Place the licensed .woff2 files in public/fonts/ to activate them.
+ * Until then, "Lora" (Google Fonts, loaded in layout.tsx) is used as a
+ * close visual stand-in — same optical size, similar stroke contrast.
+ */
+
+/* ─── Tiempos Text (self-hosted — add licensed .woff2 to public/fonts/) ─── */
+@font-face {
+  font-family: "Tiempos Text";
+  src: url("/fonts/TiemposText-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Tiempos Text";
+  src: url("/fonts/TiemposText-RegularItalic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ─── Tailwind v4 theme tokens ─────────────────────────────── */
+@theme {
+  /* Colors */
+  --color-navy: #0a0047;
+  --color-lavender: #cec6ff;
+  --color-lavender-light: #f3f1ff;
+  --color-body: #4b4b51;
+  --color-heading: #1c1c1f;
+  --color-dark: #0c0c0d;
+
+  /* Font families */
+  --font-serif: "Tiempos Text", var(--font-lora), Lora, Georgia, serif;
+  --font-sans: var(--font-plus-jakarta), "Plus Jakarta Sans", system-ui, sans-serif;
+
+  /* Border radius */
+  --radius-footer: 32px;
+}
+
+/* ─── Base styles ──────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: var(--font-sans);
+  color: var(--color-heading);
+}
+
+/* Prevent image right-click / drag / save */
+img {
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+  pointer-events: none;
+}
+
+/* Restore pointer events on interactive image wrappers */
+a img,
+button img {
+  pointer-events: none;
+}
+
+/* ─── Custom cursor: CSS-level kill-switch for touch/tablet devices ─── */
+/* Hides the custom cursor element regardless of JS state.               */
+/* pointer: coarse = touch screens. hover: none = no hover capability.   */
+@media (pointer: coarse) {
+  .custom-cursor {
+    display: none !important;
+  }
+}
+@media (hover: none) {
+  .custom-cursor {
+    display: none !important;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1d1d6;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}

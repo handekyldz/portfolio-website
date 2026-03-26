@@ -1,0 +1,29 @@
+{
+  "redirects": [
+    {
+      "source": "/avc",
+      "destination": "/projects/avocado",
+      "permanent": true
+    },
+    {
+      "source": "/glc",
+      "destination": "/projects/glacis",
+      "permanent": true
+    },
+    {
+      "source": "/dashboard",
+      "destination": "/projects/dashboard",
+      "permanent": true
+    },
+    {
+      "source": "/newrequest",
+      "destination": "/projects/new-request",
+      "permanent": true
+    },
+    {
+      "source": "/amazon-kbeauty-week",
+      "destination": "/marketing-design/amazon-kbeauty",
+      "permanent": true
+    }
+  ]
+}
