@@ -17,6 +17,9 @@
 /.next/
 /out/
 
+# stray nested directories
+hnd-portfolio/
+
 # production
 /build
 
