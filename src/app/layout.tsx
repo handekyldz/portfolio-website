@@ -21,11 +21,11 @@ const lora = Lora({
 
 export const metadata: Metadata = {
   title: {
-    default: "Hande Kurtulus Yildiz — Multidisciplinary Designer",
-    template: "%s | Hande Kurtulus Yildiz",
+    default: "hnd. — portfolio",
+    template: "%s | hnd.",
   },
   description:
-    "Portfolio of Hande Kurtulus Yildiz — a multidisciplinary designer shaping products, brands and experiences. Specializing in product design, brand identity, and visual design for SaaS and e-commerce.",
+    "Multidisciplinary designer working across product, brand and visual design.",
   keywords: [
     "portfolio",
     "designer",
@@ -34,14 +34,13 @@ export const metadata: Metadata = {
     "UX design",
     "UI design",
   ],
-  authors: [{ name: "Hande Kurtulus Yildiz" }],
   metadataBase: new URL("https://hnd.design"),
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://hnd.design",
-    title: "Hande Kurtulus Yildiz — Multidisciplinary Designer",
-    description: "Portfolio showcasing product, brand and visual design work.",
+    title: "hnd. — portfolio",
+    description: "Multidisciplinary designer working across product, brand and visual design.",
     images: [{ url: "/og-image.jpg", width: 1200, height: 630 }],
   },
   twitter: {

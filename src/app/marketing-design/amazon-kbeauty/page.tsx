@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Nav from "@/components/layout/Nav";
-import Footer from "@/components/layout/Footer";
+import DarkFooter from "@/components/layout/DarkFooter";
 import BackButton from "@/components/ui/BackButton";
 import DetailSection from "@/components/ui/DetailSection";
 import ConfettiTrigger from "@/components/ui/ConfettiTrigger";
@@ -259,9 +259,7 @@ export default function AmazonKBeautyPage() {
         </div>
       </main>
 
-      <div className="mt-10 md:mt-20">
-        <Footer />
-      </div>
+      <DarkFooter />
     </>
   );
 }

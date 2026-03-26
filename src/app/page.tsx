@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Nav from "@/components/layout/Nav";
-import Footer from "@/components/layout/Footer";
+import DarkFooter from "@/components/layout/DarkFooter";
 import ProjectGrid from "@/components/ui/ProjectGrid";
 import { projects } from "@/data/projects";
 
@@ -31,7 +31,7 @@ export default function Home() {
   return (
     <>
       <Nav />
-      <main className="flex-1 w-full max-w-[1220px] mx-auto px-4 md:px-10">
+      <main className="flex-1 w-full max-w-[1220px] mx-auto px-4 md:px-10 pb-20 md:pb-28">
         {/* Hero section */}
         <section
           className="flex flex-col gap-4 py-10 md:py-20"
@@ -72,9 +72,7 @@ export default function Home() {
         <ProjectGrid projects={projects} />
       </main>
 
-      <div className="mt-10 md:mt-20">
-        <Footer />
-      </div>
+      <DarkFooter />
     </>
   );
 }

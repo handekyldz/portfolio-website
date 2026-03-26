@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Nav from "@/components/layout/Nav";
-import Footer from "@/components/layout/Footer";
+import DarkFooter from "@/components/layout/DarkFooter";
 import ProjectGrid from "@/components/ui/ProjectGrid";
 import { marketingProjects } from "@/data/projects";
 
@@ -14,7 +14,7 @@ export default function MarketingDesignPage() {
   return (
     <>
       <Nav />
-      <main className="flex-1 w-full max-w-[1220px] mx-auto px-4 md:px-10">
+      <main className="flex-1 w-full max-w-[1220px] mx-auto px-4 md:px-10 pb-20 md:pb-28">
         {/* Hero section */}
         <section className="flex flex-col gap-4 py-10 md:py-20" aria-label="Marketing Design introduction">
           <div className="flex flex-col md:flex-row gap-3 md:gap-10 items-start md:items-start">
@@ -34,9 +34,7 @@ export default function MarketingDesignPage() {
         <ProjectGrid projects={marketingProjects} />
       </main>
 
-      <div className="mt-10 md:mt-20">
-        <Footer />
-      </div>
+      <DarkFooter />
     </>
   );
 }

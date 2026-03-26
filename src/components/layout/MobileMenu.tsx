@@ -12,6 +12,7 @@ interface MobileMenuProps {
 
 const menuItems = [
   { type: "work" as const, label: "Work" },
+  { type: "link" as const, label: "About", href: "/about" },
   { type: "link" as const, label: "Marketing design", href: "/marketing-design" },
   { type: "mail" as const, label: "Contact", href: "mailto:handekyldz@gmail.com" },
 ];

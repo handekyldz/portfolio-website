@@ -109,6 +109,7 @@ export default function Nav() {
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-6" aria-label="Main navigation">
             <NavLink onClick={handleWorkClick}>Work</NavLink>
+            <NavLink href="/about">About</NavLink>
             <NavLink href="/marketing-design">Marketing design</NavLink>
             <a
               href="mailto:handekyldz@gmail.com"
