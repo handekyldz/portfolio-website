@@ -69,9 +69,7 @@ export default function Home() {
         </section>
 
         {/* Project grid */}
-        <section id="projects">
-          <ProjectGrid projects={projects} />
-        </section>
+        <ProjectGrid projects={projects} />
       </main>
 
       <div className="mt-10 md:mt-20">

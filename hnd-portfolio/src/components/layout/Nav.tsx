@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import Logo from "@/components/icons/Logo";
 import MobileMenu from "./MobileMenu";
@@ -40,6 +41,8 @@ function NavLink({
 }
 
 export default function Nav() {
+  const pathname = usePathname();
+  const router = useRouter();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -67,6 +70,14 @@ export default function Nav() {
   const handleLogoMouseLeave = () => {
     x.set(0);
     y.set(0);
+  };
+
+  const handleWorkClick = () => {
+    if (pathname === "/") {
+      document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      router.push("/#projects");
+    }
   };
 
   return (
@@ -97,7 +108,7 @@ export default function Nav() {
 
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-6" aria-label="Main navigation">
-            <NavLink href="/#projects">Work</NavLink>
+            <NavLink onClick={handleWorkClick}>Work</NavLink>
             <NavLink href="/marketing-design">Marketing design</NavLink>
             <a
               href="mailto:handekyldz@gmail.com"

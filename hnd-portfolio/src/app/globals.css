@@ -60,10 +60,9 @@ img {
   user-select: none;
   -webkit-user-drag: none;
   -webkit-touch-callout: none;
-  pointer-events: none;
 }
 
-/* Restore pointer events on interactive image wrappers */
+/* Images inside links and buttons pass clicks to the parent */
 a img,
 button img {
   pointer-events: none;

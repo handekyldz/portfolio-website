@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface MobileMenuProps {
@@ -10,6 +11,8 @@ interface MobileMenuProps {
 }
 
 export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
+  const pathname = usePathname();
+  const router = useRouter();
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
 
   // Escape key + body scroll lock
@@ -100,15 +103,23 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
             {/* Nav items */}
             <nav className="flex flex-col mt-4">
-              <Link
-                href="/#projects"
-                onClick={onClose}
-                className="flex flex-col py-4 pl-6 border-b border-gray-100 hover:bg-gray-50 transition-colors"
+              <button
+                onClick={() => {
+                  onClose();
+                  if (pathname === "/") {
+                    setTimeout(() => {
+                      document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+                    }, 300);
+                  } else {
+                    router.push("/#projects");
+                  }
+                }}
+                className="flex flex-col py-4 pl-6 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors text-left w-full"
               >
                 <span className="font-sans text-body text-[16px] uppercase tracking-wide">
                   Work
                 </span>
-              </Link>
+              </button>
 
               <Link
                 ref={firstLinkRef}

@@ -39,7 +39,7 @@ export default function FadeInOnScroll({
   return (
     <motion.div
       ref={ref}
-      className={cn(className)}
+      className={cn("pointer-events-auto", className)}
       initial={{ opacity: 0, y: 20 }}
       animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       transition={{
@@ -47,6 +47,7 @@ export default function FadeInOnScroll({
         delay,
         ease: [0.25, 0.1, 0.25, 1],
       }}
+      style={{ pointerEvents: "auto" }}
     >
       {children}
     </motion.div>

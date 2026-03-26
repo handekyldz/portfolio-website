@@ -73,10 +73,12 @@ export default function ComingSoonModal({
             aria-modal="true"
             aria-labelledby="coming-soon-title"
             onKeyDown={handleTabKey}
+            onClick={onClose}
           >
             <motion.div
               ref={modalRef}
               className="relative w-full max-w-[480px] bg-white rounded-2xl p-8 shadow-xl"
+              onClick={(e) => e.stopPropagation()}
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
