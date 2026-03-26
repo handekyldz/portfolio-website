@@ -13,17 +13,18 @@ interface ProjectCardProps {
   project: Project;
 }
 
-export default function ProjectCard({ project }: ProjectCardProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { showCursor, hideCursor, isPointerDevice } = useCursor();
-
-  const mouseHandlers = isPointerDevice
-    ? { onMouseEnter: showCursor, onMouseLeave: hideCursor }
-    : {};
-
-  const cardContent = (
+function CardInner({
+  project,
+  isPointerDevice,
+  mouseHandlers,
+}: {
+  project: Project;
+  isPointerDevice: boolean;
+  mouseHandlers: object;
+}) {
+  return (
     <div
-      className={`bg-white flex flex-col gap-[10px] items-start w-full overflow-hidden group${isPointerDevice ? " cursor-none" : ""}`}
+      className={`bg-white flex flex-col gap-[10px] items-start w-full group${isPointerDevice ? " cursor-none" : ""}`}
       {...mouseHandlers}
     >
       <div className="aspect-[574/320] relative w-full overflow-hidden">
@@ -32,7 +33,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           alt={project.thumbnailAlt}
           fill
           sizes="(max-width: 768px) 100vw, 50vw"
-          className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+          className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
           priority={project.id === "avocado"}
         />
       </div>
@@ -44,6 +45,15 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       </div>
     </div>
   );
+}
+
+export default function ProjectCard({ project }: ProjectCardProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { showCursor, hideCursor, isPointerDevice } = useCursor();
+
+  const mouseHandlers = isPointerDevice
+    ? { onMouseEnter: showCursor, onMouseLeave: hideCursor }
+    : {};
 
   if (project.isConfidential) {
     return (
@@ -56,7 +66,11 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           aria-label={`View confidential project: ${project.title}`}
           onKeyDown={(e) => e.key === "Enter" && setIsModalOpen(true)}
         >
-          {cardContent}
+          <CardInner
+            project={project}
+            isPointerDevice={isPointerDevice}
+            mouseHandlers={mouseHandlers}
+          />
         </div>
         <ConfidentialModal
           isOpen={isModalOpen}
@@ -77,7 +91,11 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           aria-label={`${project.title} — coming soon`}
           onKeyDown={(e) => e.key === "Enter" && setIsModalOpen(true)}
         >
-          {cardContent}
+          <CardInner
+            project={project}
+            isPointerDevice={isPointerDevice}
+            mouseHandlers={mouseHandlers}
+          />
         </div>
         <ComingSoonModal
           isOpen={isModalOpen}
@@ -89,7 +107,11 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
   return (
     <Link href={project.href} className="block">
-      {cardContent}
+      <CardInner
+        project={project}
+        isPointerDevice={isPointerDevice}
+        mouseHandlers={mouseHandlers}
+      />
     </Link>
   );
 }

@@ -52,7 +52,7 @@ export default function SideNav({ items }: SideNavProps) {
 
   return (
     <nav
-      className="hidden lg:flex flex-col gap-1 sticky top-24 w-[180px] shrink-0"
+      className="hidden lg:flex flex-col gap-0.5 sticky top-24 w-[180px] shrink-0"
       aria-label="Page sections"
     >
       {items.map(({ id, label }) => {
@@ -61,20 +61,20 @@ export default function SideNav({ items }: SideNavProps) {
           <button
             key={id}
             onClick={() => scrollTo(id)}
-            className={`text-left font-sans text-[13px] leading-[1.4] px-3 py-1.5 rounded-md transition-colors duration-200 ${
-              isActive
-                ? "text-heading font-medium bg-[#f5f4ff]"
-                : "text-body hover:text-heading"
+            className={`relative text-left font-sans text-[13px] leading-[1.4] px-3 py-1.5 rounded-md transition-colors duration-200 ${
+              isActive ? "text-heading font-medium" : "text-body hover:text-heading"
             }`}
           >
             {isActive && (
               <motion.span
                 layoutId="sidenav-indicator"
-                className="absolute left-0 top-0 h-full w-0.5 bg-lavender rounded-full"
-                style={{ position: "relative" }}
+                className="absolute inset-0 rounded-md bg-[#f5f4ff]"
+                initial={false}
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                aria-hidden="true"
               />
             )}
-            {label}
+            <span className="relative z-10">{label}</span>
           </button>
         );
       })}

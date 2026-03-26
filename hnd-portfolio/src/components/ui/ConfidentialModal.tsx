@@ -8,6 +8,18 @@ interface ConfidentialModalProps {
   onClose: () => void;
 }
 
+const contentVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.06, delayChildren: 0.1 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.3, ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number] } },
+};
+
 export default function ConfidentialModal({
   isOpen,
   onClose,
@@ -15,7 +27,6 @@ export default function ConfidentialModal({
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
 
-  // Close on Escape
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -30,14 +41,12 @@ export default function ConfidentialModal({
     };
   }, [isOpen, onClose]);
 
-  // Focus first focusable element when open
   useEffect(() => {
     if (isOpen) {
       closeButtonRef.current?.focus();
     }
   }, [isOpen]);
 
-  // Focus trap
   const handleTabKey = useCallback(
     (e: React.KeyboardEvent) => {
       if (e.key !== "Tab" || !modalRef.current) return;
@@ -65,7 +74,6 @@ export default function ConfidentialModal({
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Overlay */}
           <motion.div
             className="fixed inset-0 z-[100] bg-black/20"
             initial={{ opacity: 0 }}
@@ -76,7 +84,6 @@ export default function ConfidentialModal({
             aria-hidden="true"
           />
 
-          {/* Modal */}
           <div
             className="fixed inset-0 z-[101] flex items-center justify-center p-4"
             role="dialog"
@@ -89,25 +96,18 @@ export default function ConfidentialModal({
               ref={modalRef}
               className="relative w-full max-w-[480px] bg-white rounded-2xl p-8 shadow-xl"
               onClick={(e) => e.stopPropagation()}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+              initial={{ opacity: 0, scale: 0.95, y: 8 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 8 }}
+              transition={{ duration: 0.22, ease: [0.25, 0.1, 0.25, 1] }}
             >
-              {/* Close X */}
               <button
                 ref={closeButtonRef}
                 onClick={onClose}
                 aria-label="Close modal"
                 className="absolute top-4 right-4 p-2 text-body hover:text-heading transition-colors rounded-lg"
               >
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 14 14"
-                  fill="none"
-                  aria-hidden="true"
-                >
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                   <path
                     d="M1 1L13 13M13 1L1 13"
                     stroke="currentColor"
@@ -117,23 +117,34 @@ export default function ConfidentialModal({
                 </svg>
               </button>
 
-              <h2
-                id="modal-title"
-                className="font-serif text-[24px] text-heading mb-3"
+              <motion.div
+                variants={contentVariants}
+                initial="hidden"
+                animate="visible"
               >
-                Confidential Project
-              </h2>
+                <motion.h2
+                  id="modal-title"
+                  className="font-serif text-[24px] text-heading mb-3"
+                  variants={itemVariants}
+                >
+                  Confidential Project
+                </motion.h2>
 
-              <p className="font-sans text-[16px] text-body leading-relaxed mb-6">
-                This project is under NDA, get in touch with me to learn more.
-              </p>
+                <motion.p
+                  className="font-sans text-[16px] text-body leading-relaxed mb-6"
+                  variants={itemVariants}
+                >
+                  This project is under NDA, get in touch with me to learn more.
+                </motion.p>
 
-              <button
-                onClick={onClose}
-                className="font-sans text-[14px] text-body underline underline-offset-2 hover:text-heading transition-colors"
-              >
-                Close
-              </button>
+                <motion.button
+                  onClick={onClose}
+                  className="font-sans text-[14px] text-body underline underline-offset-2 hover:text-heading transition-colors"
+                  variants={itemVariants}
+                >
+                  Close
+                </motion.button>
+              </motion.div>
             </motion.div>
           </div>
         </>

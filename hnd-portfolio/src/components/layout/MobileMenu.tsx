@@ -10,12 +10,17 @@ interface MobileMenuProps {
   onClose: () => void;
 }
 
+const menuItems = [
+  { type: "work" as const, label: "Work" },
+  { type: "link" as const, label: "Marketing design", href: "/marketing-design" },
+  { type: "mail" as const, label: "Contact", href: "mailto:handekyldz@gmail.com" },
+];
+
 export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const pathname = usePathname();
   const router = useRouter();
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
 
-  // Escape key + body scroll lock
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -31,7 +36,6 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     };
   }, [isOpen, onClose]);
 
-  // Focus trap
   const handleTabKey = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key !== "Tab") return;
     const panel = e.currentTarget;
@@ -49,11 +53,21 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     }
   };
 
+  const handleWorkClick = () => {
+    onClose();
+    if (pathname === "/") {
+      setTimeout(() => {
+        document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+      }, 300);
+    } else {
+      router.push("/#projects");
+    }
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop */}
           <motion.div
             className="fixed inset-0 z-40 bg-black/20"
             initial={{ opacity: 0 }}
@@ -64,7 +78,6 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             aria-hidden="true"
           />
 
-          {/* Slide-in panel */}
           <motion.div
             className="fixed right-0 top-0 h-full z-50 w-[300px] sm:w-[400px] bg-white shadow-2xl flex flex-col"
             role="dialog"
@@ -76,20 +89,13 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             onKeyDown={handleTabKey}
           >
-            {/* Close button */}
             <div className="flex justify-end p-4">
               <button
                 onClick={onClose}
                 aria-label="Close menu"
                 className="p-2 rounded-lg text-body hover:text-heading hover:bg-neutral-100 transition-colors"
               >
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  aria-hidden="true"
-                >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                   <path
                     d="M18 6L6 18M6 6L18 18"
                     stroke="currentColor"
@@ -101,46 +107,57 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               </button>
             </div>
 
-            {/* Nav items */}
             <nav className="flex flex-col mt-4">
-              <button
-                onClick={() => {
-                  onClose();
-                  if (pathname === "/") {
-                    setTimeout(() => {
-                      document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
-                    }, 300);
-                  } else {
-                    router.push("/#projects");
-                  }
-                }}
-                className="flex flex-col py-4 pl-6 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors text-left w-full"
-              >
-                <span className="font-sans text-body text-[16px] uppercase tracking-wide">
-                  Work
-                </span>
-              </button>
+              {menuItems.map(({ type, label, href }, i) => {
+                const itemClass =
+                  "flex flex-col py-4 pl-6 border-b border-gray-100 hover:bg-gray-50 transition-colors text-left w-full";
+                const labelEl = (
+                  <span className="font-sans text-body text-[16px] uppercase tracking-wide">
+                    {label}
+                  </span>
+                );
 
-              <Link
-                ref={firstLinkRef}
-                href="/marketing-design"
-                onClick={onClose}
-                className="flex flex-col py-4 pl-6 border-b border-gray-100 hover:bg-gray-50 transition-colors"
-              >
-                <span className="font-sans text-body text-[16px] uppercase tracking-wide">
-                  Marketing design
-                </span>
-              </Link>
+                const content =
+                  type === "work" ? (
+                    <button key={label} onClick={handleWorkClick} className={itemClass}>
+                      {labelEl}
+                    </button>
+                  ) : type === "link" ? (
+                    <Link
+                      key={label}
+                      ref={i === 1 ? firstLinkRef : undefined}
+                      href={href!}
+                      onClick={onClose}
+                      className={itemClass}
+                    >
+                      {labelEl}
+                    </Link>
+                  ) : (
+                    <a
+                      key={label}
+                      href={href!}
+                      onClick={onClose}
+                      className={itemClass}
+                    >
+                      {labelEl}
+                    </a>
+                  );
 
-              <a
-                href="mailto:handekyldz@gmail.com"
-                onClick={onClose}
-                className="flex flex-col py-4 pl-6 border-b border-gray-100 hover:bg-gray-50 transition-colors"
-              >
-                <span className="font-sans text-body text-[16px] uppercase tracking-wide">
-                  Contact
-                </span>
-              </a>
+                return (
+                  <motion.div
+                    key={label}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{
+                      delay: 0.1 + i * 0.05,
+                      duration: 0.25,
+                      ease: [0.25, 0.1, 0.25, 1],
+                    }}
+                  >
+                    {content}
+                  </motion.div>
+                );
+              })}
             </nav>
           </motion.div>
         </>

@@ -1,6 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 import confetti from "canvas-confetti";
 
 const CONFETTI_COLORS = [
@@ -14,6 +16,7 @@ const CONFETTI_COLORS = [
 
 export function useConfettiOnScrollEnd() {
   const firedRef = useRef(false);
+  const [showThanks, setShowThanks] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,7 +35,6 @@ export function useConfettiOnScrollEnd() {
       const particleCount = 3;
 
       const frame = () => {
-        // Left corner
         confetti({
           particleCount,
           angle: 60,
@@ -40,7 +42,6 @@ export function useConfettiOnScrollEnd() {
           origin: { x: 0, y: 1 },
           colors: CONFETTI_COLORS,
         });
-        // Right corner
         confetti({
           particleCount,
           angle: 120,
@@ -55,15 +56,39 @@ export function useConfettiOnScrollEnd() {
       };
 
       frame();
+
+      // Show thanks text after confetti starts
+      setTimeout(() => setShowThanks(true), 300);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  return showThanks;
 }
 
-// Render-nothing component for pages that just need to drop it in JSX
 export default function ConfettiTrigger() {
-  useConfettiOnScrollEnd();
-  return null;
+  const showThanks = useConfettiOnScrollEnd();
+
+  return (
+    <AnimatePresence>
+      {showThanks && (
+        <motion.div
+          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50"
+          initial={{ opacity: 0, y: 12, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -8, scale: 0.95 }}
+          transition={{ duration: 0.4, ease: [0.19, 1, 0.22, 1] }}
+        >
+          <Link
+            href="/"
+            className="bg-white/90 backdrop-blur-sm border border-neutral-100 shadow-lg rounded-full px-5 py-2.5 flex items-center gap-2 font-sans text-[14px] uppercase text-body hover:text-heading transition-colors whitespace-nowrap"
+          >
+            ← Back to Home
+          </Link>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
 }

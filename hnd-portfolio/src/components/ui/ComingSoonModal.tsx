@@ -8,6 +8,18 @@ interface ComingSoonModalProps {
   onClose: () => void;
 }
 
+const contentVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.06, delayChildren: 0.1 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.3, ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number] } },
+};
+
 export default function ComingSoonModal({
   isOpen,
   onClose,
@@ -79,10 +91,10 @@ export default function ComingSoonModal({
               ref={modalRef}
               className="relative w-full max-w-[480px] bg-white rounded-2xl p-8 shadow-xl"
               onClick={(e) => e.stopPropagation()}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+              initial={{ opacity: 0, scale: 0.95, y: 8 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 8 }}
+              transition={{ duration: 0.22, ease: [0.25, 0.1, 0.25, 1] }}
             >
               <button
                 ref={closeButtonRef}
@@ -100,23 +112,34 @@ export default function ComingSoonModal({
                 </svg>
               </button>
 
-              <h2
-                id="coming-soon-title"
-                className="font-serif text-[24px] text-heading mb-3"
+              <motion.div
+                variants={contentVariants}
+                initial="hidden"
+                animate="visible"
               >
-                Coming Soon
-              </h2>
+                <motion.h2
+                  id="coming-soon-title"
+                  className="font-serif text-[24px] text-heading mb-3"
+                  variants={itemVariants}
+                >
+                  Coming Soon
+                </motion.h2>
 
-              <p className="font-sans text-[16px] text-body leading-relaxed mb-6">
-                This case study is currently being prepared. Check back soon!
-              </p>
+                <motion.p
+                  className="font-sans text-[16px] text-body leading-relaxed mb-6"
+                  variants={itemVariants}
+                >
+                  This case study is currently being prepared. Check back soon!
+                </motion.p>
 
-              <button
-                onClick={onClose}
-                className="font-sans text-[14px] text-body underline underline-offset-2 hover:text-heading transition-colors"
-              >
-                Close
-              </button>
+                <motion.button
+                  onClick={onClose}
+                  className="font-sans text-[14px] text-body underline underline-offset-2 hover:text-heading transition-colors"
+                  variants={itemVariants}
+                >
+                  Close
+                </motion.button>
+              </motion.div>
             </motion.div>
           </div>
         </>
